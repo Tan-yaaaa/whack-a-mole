@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import Leaderboard from './Leaderboard';
 
-function App() {
-  const [count, setCount] = useState(0)
+const HomePage = ({ onStartGame, highScores }) => {
+  const [username, setUsername] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (username.trim()) {
+      onStartGame(username.trim());
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div className="home-container">
+      <h2 className="home-title">Cosmic Whack-A-Mole</h2>
+      
+      <form onSubmit={handleSubmit} className="username-form">
+        <div className="form-group">
+          <label htmlFor="username">Enter Your Name:</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Your name"
+            required
+          />
+        </div>
+        <button type="submit" className="start-btn glow-effect">
+          Start Game
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      </form>
+      
+      <div className="leaderboard-section">
+        <h3 className="leaderboard-title">High Scores</h3>
+        <Leaderboard highScores={highScores} />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default App
+export default HomePage;
